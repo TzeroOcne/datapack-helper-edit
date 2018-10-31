@@ -1,0 +1,133 @@
+{
+	"name": "datapack-helper",
+	"displayName": "datapack-helper",
+	"description": "Minecraft Datapack helper, providing datapack creation utilities and autocompletion for functions",
+	"version": "0.6.1",
+	"publisher": "pca",
+	"engines": {
+		"vscode": "^1.19.0"
+	},
+	"main": "./out/extension",
+	"categories": [
+		"Linters",
+		"Languages",
+		"Other"
+	],
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/pca006132/datapack-helper.git"
+	},
+	"contributes": {
+		"languages": [
+			{
+				"id": "mcfunction",
+				"extensions": [
+					".mcfunction"
+				],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"commands": [
+			{
+				"command": "datapack.initialize",
+				"title": "Initialize datapack"
+			},
+			{
+				"command": "datapack.reload",
+				"title": "Reload datapack references"
+			},
+			{
+				"command": "datapack.open",
+				"title": "Open(create) function/advancement file based on its name"
+			},
+			{
+				"command": "datapack.addTag",
+				"title": "Add tags to the current function"
+			}
+		],
+		"grammars": [
+			{
+				"language": "mcfunction",
+				"scopeName": "source.mcfunction",
+				"path": "./syntaxes/mcfunction.json"
+			}
+		],
+		"jsonValidation": [
+			{
+				"fileMatch": "/data/*/advancements/**.json",
+				"url": "./ref/advancement-schema.json"
+			},
+			{
+				"fileMatch": "/data/*/loot_tables/**.json",
+				"url": "./ref/loot-table-schema.json"
+			},
+			{
+				"fileMatch": "/data/*/recipes/**.json",
+				"url": "./ref/recipe-schema.json"
+			},
+			{
+				"fileMatch": "/data/*/tags/**/*.json",
+				"url": "./ref/tag-schema.json"
+			}
+		],
+		"keybindings": [
+			{
+				"command": "datapack.escape",
+				"key": "alt+/",
+				"when": "editorHasSelection"
+			},
+			{
+				"command": "datapack.unescape",
+				"key": "alt+\\",
+				"when": "editorHasSelection"
+			},
+			{
+				"command": "datapack.evaluate",
+				"key": "ctrl+e",
+				"when": "editorHasSelection"
+			},
+			{
+				"command": "datapack.removeduplicates",
+				"key": "ctrl+alt+r",
+				"when": "editorHasSelection"
+			},
+			{
+				"command": "datapack.open",
+				"key": "ctrl+alt+o"
+			},
+			{
+				"command": "datapack.addTag",
+				"key": "ctrl+alt+t"
+			}
+		]
+	},
+	"activationEvents": [
+		"workspaceContains:**/pack.mcmeta",
+		"onCommand:datapack.initialize",
+		"onCommand:datapack.read"
+	],
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"postinstall": "node ./node_modules/vscode/bin/install",
+		"test": "npm run compile && node ./node_modules/vscode/bin/test"
+	},
+	"devDependencies": {
+		"@types/fs-extra": "^5.0.0",
+		"@types/mocha": "^2.2.42",
+		"@types/node": "^7.0.43",
+		"sinon": "^4.1.3",
+		"typescript": "^2.6.1",
+		"vscode": "^1.1.6"
+	},
+	"dependencies": {
+		"fs-extra": "^5.0.0"
+	},
+	"__metadata": {
+		"id": "0363aa82-8911-48d0-9c22-985af690f5fb",
+		"publisherId": "715f3d90-4df3-41f5-b2c2-493b67cd90c9",
+		"publisherDisplayName": "pca"
+	}
+}
