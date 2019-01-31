@@ -60,7 +60,7 @@ function activate(context) {
     vscode.commands.registerCommand("datapack.open", () => {
         if (!enabled)
             return;
-        vscode.window.showInputBox({ placeHolder: "a/l/bt/it/ft/f/r", prompt: "a: advancements, l: loot-tables, bt: block-tag, it: item-tag, ft: function-tag, f: functions, r: recipe" }).then(choice => {
+        vscode.window.showInputBox({ placeHolder: "a/l/bt/et/it/ft/f/r", prompt: "a: advancements, l: loot-tables, bt: block-tag, et: entity-type-tag, it: item-tag, ft: function-tag, f: functions, r: recipe" }).then(choice => {
             let extension = "";
             let tag = "";
             choice = choice.toLowerCase();
@@ -79,6 +79,11 @@ function activate(context) {
                     break;
                 case "bt":
                     tag = "blocks/";
+                    choice = "tags";
+                    extension = ".json";
+                    break;
+                case "et":
+                    tag = "entity_types/";
                     choice = "tags";
                     extension = ".json";
                     break;
@@ -295,6 +300,10 @@ function activate(context) {
         resources.readTags("blocks").then().catch(err => {
             if (err)
                 vscode.window.showErrorMessage("Error reading block tags: " + err);
+        });
+        resources.readTags("entity_types").then().catch(err => {
+            if (err)
+                vscode.window.showErrorMessage("Error reading entity type tags: " + err);
         });
         resources.readTags("items").then().catch(err => {
             if (err)

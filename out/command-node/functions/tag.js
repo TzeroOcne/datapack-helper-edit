@@ -15,6 +15,9 @@ function tagCompletion(type, line, start, end) {
         case 'blocks':
             temp = resources_1.getResources("blockTags");
             break;
+        case 'entity_types':
+            temp = resources_1.getResources("entityTypeTags");
+            break;
         case 'items':
             temp = resources_1.getResources("itemTags");
             break;
