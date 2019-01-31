@@ -89,6 +89,11 @@ function initialize() {
                 vscode.window.showErrorMessage("Error creating .datapack/blocksTag.json");
             }
         });
+        fs.writeFile(path.join(root.fsPath, '.datapack', 'entity_typesTag.json'), "{}", (err) => {
+            if (err) {
+                vscode.window.showErrorMessage("Error creating .datapack/entity_typesTag.json");
+            }
+        });
         fs.writeFile(path.join(root.fsPath, '.datapack', 'itemsTag.json'), "{}", (err) => {
             if (err) {
                 vscode.window.showErrorMessage("Error creating .datapack/itemsTag.json");
@@ -133,6 +138,7 @@ let resources = {
     teams: [],
     functionTags: {},
     blockTags: {},
+    entityTypeTags: {},
     itemTags: {},
     bossbars: {}
 };
@@ -319,6 +325,10 @@ function readTags(t) {
                 resources.blockTags = {};
                 base = resources.blockTags;
                 break;
+            case 'entity_types':
+                resources.entityTypeTags = {};
+                base = resources.entityTypeTags;
+                break;
             default:
                 throw new Error("WTf is type " + t);
         }
@@ -496,6 +506,21 @@ function loadFiles() {
                 return;
             }
             vscode.window.showErrorMessage("Error loading .datapack/blocksTag.json");
+        }
+        try {
+            let raw = yield loadJson(path.join(vscode.workspace.workspaceFolders[0].uri.fsPath, '.datapack', 'entity_typesTag.json'));
+            resources.entityTypeTags = raw;
+        }
+        catch (e) {
+            if (e.code === 'ENOENT') {
+                fs.writeFile(path.join(root.fsPath, '.datapack', 'entity_typesTag.json'), "{}", (err) => {
+                    if (err) {
+                        vscode.window.showErrorMessage("Error creating .datapack/entity_typesTag.json");
+                    }
+                });
+                return;
+            }
+            vscode.window.showErrorMessage("Error loading .datapack/entity_typesTag.json");
         }
         try {
             let raw = yield loadJson(path.join(vscode.workspace.workspaceFolders[0].uri.fsPath, '.datapack', 'bossbars.json'));
@@ -698,6 +723,9 @@ function reloadTags(p) {
                 break;
             case 'blocks':
                 base = resources.blockTags;
+                break;
+            case 'entity_types':
+                base = resources.entityTypeTags;
                 break;
             default:
                 throw new Error("Wrong tag type " + t);

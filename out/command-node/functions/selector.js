@@ -9,6 +9,7 @@ const util_1 = require("./../../util");
 const resources_1 = require("./../../resources");
 const advancements_1 = require("./advancements");
 const criteria_1 = require("./criteria");
+const tag_1 = require("./tag");
 class SelectorNode extends base_1.default {
     constructor(single) {
         super();
@@ -115,11 +116,11 @@ class SelectorNode extends base_1.default {
                             var result = skipArgument(line, equalSign + 1, end);
                             if (result.completed) {
                                 index = result.index;
-                                if (result.shouldDelete) {
+                                /*if (result.shouldDelete) {
                                     let i = argumentList.indexOf(key);
                                     if (i !== -1)
                                         argumentList.splice(i, 1);
-                                }
+                                }*/
                             }
                             else {
                                 return [resources_1.getResources("tags"), true];
@@ -136,8 +137,13 @@ class SelectorNode extends base_1.default {
                                 }
                             }
                             else {
-                                let types = resources_1.getResources("#entities");
+                                let types = resources_1.getResources("#entities").slice(0,);
                                 types.push("player");
+                                var hashTag = line.indexOf("#");
+                                var exclamTag = line.indexOf("!");
+                                if (hashTag == equalSign + 1 || (exclamTag == equalSign + 1 && hashTag == equalSign + 2)) {
+                                    types = tag_1.tagCompletion("entity_types", line, hashTag + 1, end);
+                                }
                                 return [types, true];
                             }
                             break;
