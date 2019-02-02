@@ -137,7 +137,7 @@ class SelectorNode extends base_1.default {
                                 }
                             }
                             else {
-                                let types = resources_1.getResources("#entities").slice(0,);
+                                let types = resources_1.getResources("#entities");
                                 types.push("player");
                                 var hashTag = line.indexOf("#");
                                 var exclamTag = line.indexOf("!");
